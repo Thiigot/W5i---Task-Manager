@@ -1,0 +1,64 @@
+﻿@page
+@model DetailsModel
+@{
+    Layout = "_Layout";
+}
+<div class="top-buttons">
+    <a class="top-button" href="/">
+        Finalizar Atendimento
+    </a>
+    <a class="top-button" href="/Chamados/List">
+        Voltar
+    </a>
+</div>
+
+<h2>Detalhes do Chamado</h2>
+
+
+<div class="form-group">
+    <label>Título:</label>
+    <div class="display-field">@Model.Chamado.Titulo</div>
+</div>
+
+<div class="form-grid">
+    <div class="form-group">
+        <label>ID:</label>
+        <div class="display-field">@Model.Chamado.Id</div>
+    </div>
+    <div class="form-group">
+        <label>Status:</label>
+        <div class="display-field">@Model.Chamado.Status</div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Descrição:</label>
+    <div class="display-field">@Model.Chamado.Descricao</div>
+</div>
+<div class="form-grid">
+    <div class="form-group">
+        <label>Setor:</label>
+        <div class="display-field">@Model.Chamado.Setor?.Nome</div>
+    </div>
+    <div class="form-group">
+        <label>Prioridade:</label>
+        <div class="display-field">@Model.Chamado.Prioridade?.Nome</div>
+    </div>
+</div>
+
+<div class="form-grid">
+    <div class="form-group">
+        <label>Data Criação:</label>
+        <div class="display-field">@Model.Chamado.DataCriacao</div>
+    </div>
+
+    <div class="form-group">
+        <label>Data Conclusão:</label>
+        <div class="display-field">@Model.Chamado.DataConclusao</div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Solução:</label>
+    <div class="display-field">@Model.Chamado.Solucao</div>
+</div>

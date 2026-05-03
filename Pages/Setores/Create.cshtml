@@ -1,0 +1,27 @@
+﻿@page
+@model CreateSetorModel
+@{
+    Layout = "_Layout";
+}
+<div class="top-buttons">
+    <a class="top-button" href="/">
+        Voltar
+    </a>
+</div>
+
+<h2>Cadastrar Setor</h2>
+
+<form method="post" class="form-container">
+    @Html.AntiForgeryToken()
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Nome do Setor:</label>
+            <input type="text" asp-for="Setor.Nome" name="Setor.Nome" class="form-control" />
+        </div>
+    </div>
+    <button type="submit" class="btn-submit">Salvar</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

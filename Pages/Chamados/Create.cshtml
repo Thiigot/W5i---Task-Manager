@@ -1,0 +1,64 @@
+﻿@page
+@model CreateChamadoModel
+@{
+    Layout = "_Layout";
+}
+<div class="top-buttons">
+    <a class="top-button" href="/">
+        Finalizar Atendimento
+    </a>
+    <a class="top-button" href="/Chamados/List">
+        Voltar
+    </a>
+</div>
+
+
+<h2>Criar Chamado</h2>
+
+<form method="post" asp-page="/Create" class="form-container">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label>Título:</label>
+        <input asp-for="Chamado.Titulo" name="Chamado.Titulo" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Descrição:</label>
+        <textarea asp-for="Chamado.Descricao" name="Chamado.Descricao" class="form-control"></textarea>
+    </div>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Setor:</label>
+            <select name="Chamado.SetorID" class="form-control">
+                <option value="">-- Selecione um Setor --</option>
+
+                @foreach (var item in Model.SetoresSelectList)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Prioridade:</label>
+            <select name="Chamado.PrioridadeID" class="form-control">
+                <option value="">-- Selecione uma prioridade --</option>
+                @foreach (var item in Model.PrioridadesSelectList)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+
+            </select>
+        </div>
+    </div>
+    
+
+    <button type="submit" class="btn-submit">Salvar</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

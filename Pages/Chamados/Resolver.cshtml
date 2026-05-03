@@ -1,0 +1,27 @@
+﻿@page
+@model ResolverModel
+@{
+    Layout = "_Layout";
+}
+<div class="top-buttons">
+    <a class="top-button" href="/">
+        Finalizar Atendimento
+    </a>
+    <a class="top-button" href="/Chamados/List">
+        Voltar
+    </a>
+</div>
+
+<h2>Resolver Chamado</h2>
+
+<form method="post" asp-page="/Chamados/Resolver" class="form-container">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label style="align-self:start">Solução:</label>
+        <textarea asp-for="Solucao" name="Solucao" class="form-control" style="height:200px;" ></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit">Salvar</button>
+</form>

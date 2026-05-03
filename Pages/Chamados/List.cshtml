@@ -1,0 +1,84 @@
+﻿@page
+@model ListModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="top-buttons">
+    <a class="top-button" href="/">
+        Finalizar Atendimento
+    </a>
+    <a class="top-button" href="/Chamados/Create">
+        Criar Novo Chamado
+    </a>
+</div>
+
+
+
+<br />
+<br />
+<h2>Chamados</h2>
+<div class="table-container">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Status</th>
+            <th>Setor</th>
+            <th>Prioridade</th>
+            <th>Data Criação</th>
+            <th>Data Conclusão</th>
+            <th>Tempo Atendimento</th>
+            <th>Situação</th>
+            <th>Ações</th>
+        </tr>
+
+        @if (!Model.Chamados.Any())
+        {
+            <tr>
+                <td colspan="8">Nenhum chamado encontrado</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var c in Model.Chamados)
+            {
+                <tr class="@(c.EstaAtrasado ? "row-atrasado" : c.EstaQuaseAtrasado ? "row-alerta" : "row-normal")">
+                    <td>@c.Id</td>
+                    <td>@c.Titulo</td>
+                    <td>@c.Status</td>
+                    <td>@c.Setor?.Nome</td>
+                    <td>@c.Prioridade?.Nome</td>
+                    <td>@c.DataCriacao.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        @(c.DataConclusao.HasValue? c.DataConclusao.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm"): "-")
+                    </td>
+                    @if (c.EstaAtrasado)
+                    {
+                        <td>@c.TempoTotalFormatado</td>
+                    }
+                    else
+                    {
+                        <td>@c.TempoTotalFormatado</td>
+                    }
+
+                    <td>
+                        @(c.EstaAtrasado ? "Atrasado" : "No prazo")
+                    </td>
+                    <td>
+                        <a class="link-clean" href="/Chamados/Details?id=@c.Id">Visualizar</a>
+                        @if (c.Status != "Finalizado")
+                        {
+                            <a class="link-clean" href="/Chamados/Resolver?id=@c.Id">Resolver</a>
+                        }
+                        else
+                        {
+                            <text>Finalizado</text>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>

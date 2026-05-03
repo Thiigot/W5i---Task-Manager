@@ -1,0 +1,6 @@
+@W5i___Controle_de_Atendimentos_HostAddress = http://localhost:5157
+
+GET {{W5i___Controle_de_Atendimentos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
