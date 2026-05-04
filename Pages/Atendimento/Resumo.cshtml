@@ -1,0 +1,42 @@
+﻿@page
+@model ResumoModel
+@{
+    Layout = "_Layout";
+}
+<div class="top-buttons">
+    <a class="top-button" href="/">
+        Página inicial
+    </a>
+</div>
+
+<h2>Resumo do Atendimento</h2>
+<div class="form-group">
+    <label>Funcionário:</label>
+    <div class="display-field">@Model.Atendimento.Funcionario</div>
+</div>
+<div class="form-grid">
+    <div class="form-group">
+        <label>Início:</label>
+        <div class="display-field">@Model.Atendimento.DataCheckIn</div>
+    </div>
+    <div class="form-group">
+        <label>Fim:</label>
+        <div class="display-field">@Model.Atendimento.DataCheckOut</div>
+    </div>
+</div>
+<div class="form-group">
+    <label>Fim:</label>
+    <div class="display-field">@Model.Atendimento.TempoTotal</div>
+</div>
+<div class="form-grid">
+    <div class="form-group">
+        <label>Chamados Criados:</label>
+        <div class="display-field">@Model.ChamadosCriados</div>
+    </div>
+    <div class="form-group">
+        <label>Chamados Resolvidos:</label>
+        <div class="display-field">@Model.ChamadosResolvidos</div>
+    </div>
+</div>
+
+

@@ -6,9 +6,12 @@
 }
 
 <div class="top-buttons">
-    <a class="top-button" href="/">
-        Finalizar Atendimento
-    </a>
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="top-button">
+            Finalizar Atendimento
+        </button>
+    </form>
     <a class="top-button" href="/Chamados/Create">
         Criar Novo Chamado
     </a>
@@ -34,7 +37,7 @@
             <th>Ações</th>
         </tr>
 
-        @if (!Model.Chamados.Any())
+        @if (!(Model.Chamados?.Any() ?? false))
         {
             <tr>
                 <td colspan="8">Nenhum chamado encontrado</td>

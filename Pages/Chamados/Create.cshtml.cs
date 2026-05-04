@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using W5i___Controle_de_Atendimentos.Entities;
 
 public class CreateChamadoModel : PageModel
@@ -30,6 +31,19 @@ public class CreateChamadoModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        var atendimentoId = HttpContext.Session.GetInt32("AtendimentoId");
+        if (atendimentoId == null)
+        {
+            ModelState.AddModelError("", "Você precisa iniciar um atendimento antes de criar um chamado.");
+
+            SetoresSelectList = new SelectList(_context.Setores.ToList(), "Id", "Nome");
+            PrioridadesSelectList = new SelectList(_context.Prioridades.ToList(), "Id", "Nome");
+
+            return Page();
+        }
+
+        Chamado.AtendimentoId = atendimentoId.Value;
+
         if (!ModelState.IsValid)
         {
             foreach (var item in ModelState)
@@ -41,13 +55,14 @@ public class CreateChamadoModel : PageModel
             }
             SetoresSelectList = new SelectList(_context.Setores, "Id", "Nome");
             PrioridadesSelectList = new SelectList(_context.Prioridades, "Id", "Nome");
-
-            
             return Page();
         }
+        Chamado.Status = "Aberto";
+        Chamado.DataCriacao = DateTime.UtcNow;
         _context.Chamados.Add(Chamado);
         await _context.SaveChangesAsync();
 
         return RedirectToPage("/Chamados/List");
     }
+
 }

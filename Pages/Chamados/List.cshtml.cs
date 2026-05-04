@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using W5i___Controle_de_Atendimentos.Entities;
 
@@ -11,16 +12,49 @@ public class ListModel : PageModel
         _context = context;
     }
 
-    public List<Chamado> Chamados { get; set; }
+    public List<Chamado> Chamados { get; set; } = new List<Chamado>();
 
     public void OnGet()
     {
         Chamados = _context.Chamados
             .Include(c => c.Prioridade)
-            .Include(c => c.Setor) 
-            .OrderBy(c => c.Status != "Aberto") 
+            .Include(c => c.Setor)
+            .OrderBy(c => c.Status != "Aberto")
             .ThenBy(c => c.Prioridade.TempoEstimadoHoras)
             .ThenBy(c => c.DataCriacao)
-            .ToList();
+            .ToList() ?? new List<Chamado>();
+    }
+    public async Task<IActionResult> OnPostAsync()
+    {
+        var atendimentoId = HttpContext.Session.GetInt32("AtendimentoId");
+
+        if (atendimentoId == null)
+            return RedirectToPage("/Index");
+
+        var atendimento = await _context.Atendimentos
+            .FirstOrDefaultAsync(a => a.Id == atendimentoId);
+
+        if (atendimento == null)
+            return NotFound();
+
+        if (atendimento.DataCheckOut == null)
+        {
+            var chamados = await _context.Chamados
+                .Where(c => c.AtendimentoId == atendimentoId)
+                .ToListAsync();
+
+            atendimento.TotalChamadosCriados = chamados.Count;
+
+            atendimento.TotalChamadosResolvidos = chamados
+                .Count(c => c.Status == "Finalizado");
+
+            atendimento.DataCheckOut = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
+
+        HttpContext.Session.Remove("AtendimentoId");
+
+        return RedirectToPage("/Atendimento/Resumo", new { id = atendimento.Id });
     }
 }

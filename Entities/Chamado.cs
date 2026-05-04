@@ -19,6 +19,8 @@ namespace W5i___Controle_de_Atendimentos.Entities
         public String? Solucao { get; set; }
         public Setor? Setor { get; set; }
         public Prioridade? Prioridade { get; set; }
+        public int? AtendimentoId { get; set; }
+        public Atendimento? Atendimento { get; set; }
         [NotMapped]
         public bool EstaQuaseAtrasado
         {

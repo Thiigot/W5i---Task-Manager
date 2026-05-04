@@ -19,6 +19,7 @@ public class DetailsModel : PageModel
         Chamado = _context.Chamados
             .Include(c => c.Prioridade)
             .Include(c => c.Setor)
+            .Include(c => c.Atendimento)
             .FirstOrDefault(c => c.Id == id);
 
         if (Chamado == null)

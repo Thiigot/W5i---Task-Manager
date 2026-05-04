@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using W5i___Controle_de_Atendimentos.Entities;
 
 public class ResolverModel : PageModel
 {
@@ -34,8 +36,24 @@ public class ResolverModel : PageModel
         if (chamado == null)
             return NotFound();
 
+        if (chamado.AtendimentoId == null)
+        {
+            ModelState.AddModelError("", "Chamado não foi iniciado.");
+            return Page();
+        }
+
         if (chamado.Status == "Finalizado")
-            return BadRequest("Chamado já finalizado");
+        {
+            ModelState.AddModelError("", "Chamado já está finalizado.");
+            return Page();
+        }
+
+        if (string.IsNullOrWhiteSpace(Solucao))
+        {
+            ModelState.AddModelError("", "Informe a solução do chamado.");
+            return Page();
+        }
+
 
         chamado.Status = "Finalizado";
         chamado.DataConclusao = DateTime.UtcNow;
@@ -45,4 +63,5 @@ public class ResolverModel : PageModel
 
         return RedirectToPage("/Chamados/List");
     }
+
 }

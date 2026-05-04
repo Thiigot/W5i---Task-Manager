@@ -4,9 +4,6 @@
     Layout = "_Layout";
 }
 <div class="top-buttons">
-    <a class="top-button" href="/">
-        Finalizar Atendimento
-    </a>
     <a class="top-button" href="/Chamados/List">
         Voltar
     </a>
@@ -57,7 +54,14 @@
         <div class="display-field">@Model.Chamado.DataConclusao</div>
     </div>
 </div>
+@* PARA AJUSTAR FUNCIONARIO CRIAÇÃO E CONCLUSÃO *@
 
+<div class="form-grid">
+    <div class="form-group">
+        <label>Quem Criou:</label>
+        <div class="display-field">@Model.Chamado.Atendimento?.Funcionario</div>
+    </div>
+</div>
 <div class="form-group">
     <label>Solução:</label>
     <div class="display-field">@Model.Chamado.Solucao</div>

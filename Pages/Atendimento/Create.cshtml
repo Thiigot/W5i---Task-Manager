@@ -1,0 +1,26 @@
+﻿@page
+@model CreateAtendimentoModel
+@{
+    Layout = "_Layout";
+}
+<div class="top-buttons">
+    <a class="top-button" href="/">
+        Página inicial
+    </a>
+</div>
+<h2>Iniciar Atendimento</h2>
+
+<form method="post" class="form-container">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label>Nome do Funcionário:</label>
+        <input asp-for="Atendimento.Funcionario" name="Atendimento.Funcionario" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn-submit">Iniciar</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

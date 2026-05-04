@@ -8,6 +8,7 @@ public class AppDbContext : DbContext
     public DbSet<Setor> Setores { get; set; }
     public DbSet<Prioridade> Prioridades { get; set; }
     public DbSet<Chamado> Chamados { get; set; }
+    public DbSet<Atendimento> Atendimentos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -16,5 +17,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Setor>().ToTable("Setores");
         modelBuilder.Entity<Prioridade>().ToTable("Prioridades");
         modelBuilder.Entity<Chamado>().ToTable("Chamados");
+        modelBuilder.Entity<Atendimento>().ToTable("Atendimentos");
     }
 }
