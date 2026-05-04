@@ -16,10 +16,9 @@ namespace W5i___Controle_de_Atendimentos.Entities
         public int? TotalChamadosCriados { get; set; }
         public int? TotalChamadosResolvidos { get; set; }
 
-        // Relacionamento com chamados
-        public List<Chamado>? Chamados { get; set; } = new List<Chamado>(); 
+        public List<Chamado> ChamadosCriados { get; set; } = new();
+        public List<Chamado> ChamadosResolvidos { get; set; } = new();
 
-        // Calculado
         [NotMapped]
         public TimeSpan TempoTotal =>
             (DataCheckOut ?? DateTime.UtcNow) - DataCheckIn;

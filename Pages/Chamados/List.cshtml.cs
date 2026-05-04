@@ -39,14 +39,14 @@ public class ListModel : PageModel
 
         if (atendimento.DataCheckOut == null)
         {
-            var chamados = await _context.Chamados
-                .Where(c => c.AtendimentoId == atendimentoId)
-                .ToListAsync();
+            var totalCriados = await _context.Chamados
+                .CountAsync(c => c.AtendimentoCriacaoId == atendimentoId);
 
-            atendimento.TotalChamadosCriados = chamados.Count;
+            var totalResolvidos = await _context.Chamados
+                .CountAsync(c => c.AtendimentoResolucaoId == atendimentoId);
 
-            atendimento.TotalChamadosResolvidos = chamados
-                .Count(c => c.Status == "Finalizado");
+            atendimento.TotalChamadosCriados = totalCriados;
+            atendimento.TotalChamadosResolvidos = totalResolvidos;
 
             atendimento.DataCheckOut = DateTime.UtcNow;
 

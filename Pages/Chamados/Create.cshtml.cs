@@ -42,7 +42,7 @@ public class CreateChamadoModel : PageModel
             return Page();
         }
 
-        Chamado.AtendimentoId = atendimentoId.Value;
+        
 
         if (!ModelState.IsValid)
         {
@@ -57,6 +57,7 @@ public class CreateChamadoModel : PageModel
             PrioridadesSelectList = new SelectList(_context.Prioridades, "Id", "Nome");
             return Page();
         }
+        Chamado.AtendimentoCriacaoId = atendimentoId.Value;
         Chamado.Status = "Aberto";
         Chamado.DataCriacao = DateTime.UtcNow;
         _context.Chamados.Add(Chamado);

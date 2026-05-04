@@ -30,14 +30,11 @@ public class ResumoModel : PageModel
         if (Atendimento == null)
             return NotFound();
 
-        var chamados = await _context.Chamados
-            .Where(c => c.AtendimentoId == atendimentoId)
-            .ToListAsync();
+        ChamadosCriados = await _context.Chamados
+            .CountAsync(c => c.AtendimentoCriacaoId == atendimentoId);
 
-        ChamadosCriados = chamados.Count;
-
-        ChamadosResolvidos = chamados
-            .Count(c => c.Status == "Finalizado");
+        ChamadosResolvidos = await _context.Chamados
+            .CountAsync(c => c.AtendimentoResolucaoId == atendimentoId);
 
         return Page();
     }
@@ -57,7 +54,14 @@ public class ResumoModel : PageModel
 
         if (atendimento.DataCheckOut == null)
         {
+            atendimento.TotalChamadosCriados = await _context.Chamados
+                .CountAsync(c => c.AtendimentoCriacaoId == id);
+
+            atendimento.TotalChamadosResolvidos = await _context.Chamados
+                .CountAsync(c => c.AtendimentoResolucaoId == id);
+
             atendimento.DataCheckOut = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
         }
 

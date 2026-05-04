@@ -18,5 +18,17 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Prioridade>().ToTable("Prioridades");
         modelBuilder.Entity<Chamado>().ToTable("Chamados");
         modelBuilder.Entity<Atendimento>().ToTable("Atendimentos");
+
+        modelBuilder.Entity<Chamado>()
+            .HasOne(c => c.AtendimentoCriacao)
+            .WithMany(a => a.ChamadosCriados)
+            .HasForeignKey(c => c.AtendimentoCriacaoId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Chamado>()
+            .HasOne(c => c.AtendimentoResolucao)
+            .WithMany(a => a.ChamadosResolvidos)
+            .HasForeignKey(c => c.AtendimentoResolucaoId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

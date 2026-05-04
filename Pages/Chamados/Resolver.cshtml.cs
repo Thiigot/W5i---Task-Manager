@@ -31,14 +31,15 @@ public class ResolverModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var chamado = _context.Chamados.FirstOrDefault(c => c.Id == Id);
-
+        var chamado =  _context.Chamados.FirstOrDefault(c => c.Id == Id);
         if (chamado == null)
             return NotFound();
 
-        if (chamado.AtendimentoId == null)
+        var atendimentoId = HttpContext.Session.GetInt32("AtendimentoId");
+
+        if (atendimentoId == null)
         {
-            ModelState.AddModelError("", "Chamado não foi iniciado.");
+            ModelState.AddModelError("", "Você precisa iniciar um atendimento para resolver chamados.");
             return Page();
         }
 
@@ -54,7 +55,7 @@ public class ResolverModel : PageModel
             return Page();
         }
 
-
+        chamado.AtendimentoResolucaoId = atendimentoId.Value;
         chamado.Status = "Finalizado";
         chamado.DataConclusao = DateTime.UtcNow;
         chamado.Solucao = Solucao;
